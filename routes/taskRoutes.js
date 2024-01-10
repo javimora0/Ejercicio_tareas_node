@@ -1,11 +1,10 @@
 const { check } = require('express-validator');
 const { Router } = require('express');
 const controlador = require('../controllers/taskController');
+
 const router = Router()
 const { validarCampos } = require('../middlewares/validar-campos')
 const mids = require('../middlewares/middleware')
-
-
 
 router.delete('/:id', mids.checkId,controlador.borrarTarea)
 router.put('/:id',

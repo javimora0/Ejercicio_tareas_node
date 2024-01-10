@@ -1,18 +1,21 @@
-const {check} = require('express-validator')
 const { Router } = require('express');
+const { check } = require('express-validator');
 const controlador = require('../controllers/userController');
 const router = Router()
-const { validarCampos } = require('../middlewares/validar-campos')
-const mids = require('../middlewares/middleware')
 
-router.delete('/:id', mids.checkId, controlador.borrarUsuario)
-router.put([
-    ,validarCampos
-], controlador.modificarUsuario)
+router.post('/user', controlador.crearUsuario)
+router.get('/user:id', controlador.obtenerUsuario)
+router.get('/user', controlador.obtenerUsuarios)
+router.delete('/user/:id', mids.checkId, controlador.borrarUsuario)
 
-router.route('/user')
-    .get(controlador.todosUsuarios)
+
+// router.put([
+//     ,validarCampos
+// ], controlador.modificarUsuario)
+
+// router.route('/user')
+//     .get(controlador.todosUsuarios)
     
-    .post([
-        ,validarCampos
-    ], controlador.crearUsuario)
+//     .post([
+//         ,validarCampos
+//     ], controlador.crearUsuario)
