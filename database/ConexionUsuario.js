@@ -1,12 +1,12 @@
+const NOMBRE_TABLAS = require('../constants/nombreTablas');
 const Conexion = require('../database/Conexion');
-const nombreTablas = require('../constants/nombreTablas')
 const instaciaConexion = new Conexion();
 
 class ConexionUsuario {
     insertarUsuario = async(nombre, email, password) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`INSERT INTO ${nombreTablas.TABLA_USUARIOS} VALUES (?, ?, ?)`, [nombre, email, password])
+            resultado = await instaciaConexion.query(`INSERT INTO ${NOMBRE_TABLAS.TABLA_USUARIOS} VALUES (?, ?, ?)`, [nombre, email, password])
         } catch (error) {
             throw error
         }
@@ -16,7 +16,7 @@ class ConexionUsuario {
     getUsuario = async(id) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${nombreTablas.TABLA_USUARIOS} WHERE id = ?`, [id])
+            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id])
         } catch (error) {
             throw error
         }
@@ -26,7 +26,7 @@ class ConexionUsuario {
     deleteUsuario = async(id) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`DELETE FROM ${nombreTablas.TABLA_USUARIOS} WHERE id = ?`, [id])
+            resultado = await instaciaConexion.query(`DELETE FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id])
         } catch (error) {
             throw error
         }
@@ -36,7 +36,7 @@ class ConexionUsuario {
     updateUsuario = async(nombre, email, password, id) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`UPDATE ${nombreTablas.TABLA_USUARIOS} SET nombre = ?, email = ?, password = ? WHERE id = ?`, [nombre, email, password, id])
+            resultado = await instaciaConexion.query(`UPDATE ${NOMBRE_TABLAS.TABLA_USUARIOS} SET nombre = ?, email = ?, password = ? WHERE id = ?`, [nombre, email, password, id])
         } catch (error) {
             throw error
         }
@@ -46,7 +46,7 @@ class ConexionUsuario {
     getUsuarios = async() => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${nombreTablas.TABLA_USUARIOS}`)
+            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS}`)
         } catch (error) {
             throw error
         }
