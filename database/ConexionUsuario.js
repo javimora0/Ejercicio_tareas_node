@@ -6,7 +6,7 @@ class ConexionUsuario {
     insertarUsuario = async(nombre, email, password) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`INSERT INTO ${NOMBRE_TABLAS.TABLA_USUARIOS} VALUES (?, ?, ?)`, [nombre, email, password])
+            resultado = await instaciaConexion.query(`INSERT INTO ${NOMBRE_TABLAS.TABLA_USUARIOS} VALUES (null, ?, ?, ?)`, [nombre, email, password])
         } catch (error) {
             throw error
         }

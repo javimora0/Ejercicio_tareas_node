@@ -2,6 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 const controlador = require('../controllers/userController');
 const router = Router()
+const mids = require('../middlewares/middleware');
+
 
 router.post('/user', controlador.crearUsuario)
 router.get('/user/:id', controlador.obtenerUsuario)
@@ -20,3 +22,5 @@ router.delete('/user/:id', mids.checkId, controlador.borrarUsuario)
 //     .post([
 //         ,validarCampos
 //     ], controlador.crearUsuario)
+
+module.exports = router

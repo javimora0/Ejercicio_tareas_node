@@ -3,7 +3,7 @@ const Conexion = require('../database/ConexionUsuario');
 const instConexion = new Conexion()
 
 const crearUsuario = (req = request, res = response) => {
-    instConexion.insertarUsuario(req.body.nombrem, req.body.email, req.body.password)
+    instConexion.insertarUsuario(req.body.nombre, req.body.email, req.body.password)
         .then(msg => {
             res.status(200).json(msg)
         })
