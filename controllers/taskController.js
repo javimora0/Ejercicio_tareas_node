@@ -1,10 +1,9 @@
 const {response,request} = require('express');
-const Conexion = require('../models/Conexion');
+const Conexion = require('../database/ConexionTask');
+const instConexion = new Conexion()
 
 const crearTarea = (req = request, res = response) => { 
-    const conx = new Conexion()
-
-    conx.insertarTarea(req.body.descripcion, req.body.duracion, req.body.dificultad, req.body.realizada)
+    instConexion.insertarTarea(req.body.descripcion, req.body.duracion, req.body.dificultad, req.body.realizada)
         .then( msg =>  {
             console.log('Tarea creada')
             res.status(200).json(msg)
@@ -16,8 +15,7 @@ const crearTarea = (req = request, res = response) => {
 }
 
 const obtenerTodasLasTareas = (req, res) => {
-    const conx = new Conexion()
-    conx.getTareas()
+    instConexion.getTareas()
         .then( msg => {
             res.status(200).json(msg)
         })
@@ -27,9 +25,7 @@ const obtenerTodasLasTareas = (req, res) => {
 }
 
 const borrarTarea = (req, res = response) => { 
-    const conx = new Conexion()
-
-    conx.deleteTarea(req.params.id)
+    instConexion.deleteTarea(req.params.id)
         .then( msg => {
             res.status(200).json(msg)
         })
@@ -39,8 +35,7 @@ const borrarTarea = (req, res = response) => {
 }
 
 const actualizarTarea = (req, res = response) => {
-    const conx = new Conexion()
-    conx.updateTarea(req.params.id, req.body.descripcion, req.body.duracion, req.body.dificultad, req.body.realizada)
+    instConexion.updateTarea(req.params.id, req.body.descripcion, req.body.duracion, req.body.dificultad, req.body.realizada)
     .then( msg => { 
         res.status(200).json(msg)
     })

@@ -4,7 +4,7 @@ const cors = require('cors');
 class Server {
     constructor() {
         this.app = express();
-        this.usuariosPath = '/api'
+        this.path = '/api'
         this.middlewares()
         this.routes()
     }
@@ -15,8 +15,9 @@ class Server {
     }
 
     routes() { 
-        this.app.use(this.usuariosPath , require('../routes/taskRoutes'));
+        this.app.use(this.path , require('../routes/taskRoutes'));
     }
+
 
     listen() {
         this.app.listen(process.env.PORT, () => {
