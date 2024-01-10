@@ -24,6 +24,7 @@ const obtenerTodasLasTareas = (req, res) => {
         })
 }
 
+
 const borrarTarea = (req, res = response) => { 
     instConexion.deleteTarea(req.params.id)
         .then( msg => {

@@ -4,9 +4,10 @@ const controlador = require('../controllers/userController');
 const router = Router()
 
 router.post('/user', controlador.crearUsuario)
-router.get('/user:id', controlador.obtenerUsuario)
+router.get('/user/:id', controlador.obtenerUsuario)
 router.get('/user', controlador.obtenerUsuarios)
 router.delete('/user/:id', mids.checkId, controlador.borrarUsuario)
+
 
 
 // router.put([

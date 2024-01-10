@@ -7,6 +7,8 @@ const { validarCampos } = require('../middlewares/validar-campos')
 const mids = require('../middlewares/middleware')
 
 router.delete('/:id', mids.checkId,controlador.borrarTarea)
+
+
 router.put('/:id',
     [
         check('descripcion', 'Se requiere una descripción válida').exists().notEmpty(),
