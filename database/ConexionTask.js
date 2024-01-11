@@ -22,6 +22,18 @@ class ConexionTask {
         }
         return resultado;
     }
+    getTarea = async (idTarea) => {
+        let resultado = 0
+        try {
+            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_TAREAS} WHERE id = ?`, [idTarea])
+            if (resultado.length === 0) {
+                resultado = null
+            }
+        } catch (error) {
+            resultado = null
+        }
+        return resultado;
+    }
     
     deleteTarea = async (id) => {
         let resultado = 0
@@ -43,6 +55,7 @@ class ConexionTask {
         }
         return resultado;
     }
+
 }
 
 
