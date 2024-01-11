@@ -23,11 +23,14 @@ class ConexionTask {
         return resultado;
     }
     getTarea = async (idTarea) => {
-        let resultado = []
+        let resultado = 0
         try {
             resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_TAREAS} WHERE id = ?`, [idTarea])
+            if (resultado.length === 0) {
+                resultado = null
+            }
         } catch (error) {
-            throw error;
+            resultado = null
         }
         return resultado;
     }

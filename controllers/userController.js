@@ -12,6 +12,16 @@ const crearUsuario = (req = request, res = response) => {
         })
 }
 
+const modificarUsuario = (req = request, res = response) => { 
+    instConexion.updateUsuario(req.body.nombre, req.body.email, req.body.password)
+    .then(msg => {
+        res.status(200).json(msg)
+    })
+    .catch(err => {
+        res.status(203).json(err)
+    })
+}
+
 const obtenerUsuario = (req = request, res = response) => { 
     instConexion.getUsuario(req.params.id)
         .then(msg => {
@@ -42,9 +52,15 @@ const borrarUsuario = (req = request, res = response) => {
         })
 }
 
+const login = (req = request, res = response) => { 
+    
+}
+
 module.exports = {
     crearUsuario,
     obtenerUsuario,
     obtenerUsuarios,
-    borrarUsuario
+    borrarUsuario,
+    login,
+    modificarUsuario
 }

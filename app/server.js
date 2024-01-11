@@ -18,6 +18,7 @@ class Server {
         this.app.use(this.prefixPath , require('../routes/taskRoutes'));
         this.app.use(this.prefixPath , require('../routes/userRoutes'));
         this.app.use(this.prefixPath , require('../routes/userTaskRoutes'));
+        this.app.use(this.prefixPath , require('../routes/accessRoutes'));
     }
 
     listen() {

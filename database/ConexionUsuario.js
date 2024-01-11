@@ -13,12 +13,31 @@ class ConexionUsuario {
         return resultado
     }
 
+    // Funcion solo utilizada en los middleware
     getUsuario = async(id) => {
         let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id])
+            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id]);
+            if (resultado.length === 0) {
+                resultado =  null;
+            }
+            return resultado;
         } catch (error) {
-            throw error
+            resultado = null
+        }
+        return resultado
+    }
+
+    getUsuarioEmail = async(email) => {
+        let resultado = 0
+        try {
+            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [email]);
+            if (resultado.length === 0) {
+                resultado =  null;
+            }
+            return resultado;
+        } catch (error) {
+            resultado = null
         }
         return resultado
     }
@@ -51,6 +70,10 @@ class ConexionUsuario {
             throw error
         }
         return resultado
+    }
+
+    checkLogin = async() => {
+        return 0
     }
 
 }
