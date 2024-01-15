@@ -8,8 +8,7 @@ class ConexionUsuario {
         let resultado = 0
         conx.conectar()
         try {
-            const usuarioNuevo = await Usuario.create(body)
-            resultado = 1
+            resultado = await Usuario.create(body)
         } catch (error) {
             throw error
         } finally {
@@ -72,10 +71,12 @@ class ConexionUsuario {
         let resultado = await Usuario.findByPk(id)
         if (!resultado) {
             conx.desconectar()
+            console.log(entro)
             throw error
         }
         try {
-            await resultado.update(body)
+            let update = await resultado.update(body)
+            console.log(update)
         }catch (error) {
             conx.desconectar()
             throw error

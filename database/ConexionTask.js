@@ -8,13 +8,13 @@ class ConexionTask {
         let resultado = 0
         conx.conectar()
         try {
-            const tareaNueva = await Tarea.create(body)
-            resultado = 1
+            resultado = await Tarea.create(body)
         } catch (error) {
             throw error
         } finally {
             conx.desconectar()
         }
+        return resultado
     }
 
     getTareas = async () => {

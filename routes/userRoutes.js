@@ -22,7 +22,7 @@ router.get('/user', controlador.obtenerUsuarios)
 
 router.delete('/user/:id', mids.checkId, controlador.borrarUsuario)
 
-router.put('/user',
+router.put('/user/:id',
     [
         check('nombre', 'El nombre debe tener entre 3 y 60 caracteres')
             .isLength({ min: 3, max: 60 }),

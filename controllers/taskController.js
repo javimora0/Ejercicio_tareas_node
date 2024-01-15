@@ -6,7 +6,7 @@ const crearTarea = (req = request, res = response) => {
     instConexion.insertarTarea(req.body)
         .then(msg => {
             console.log('Tarea creada')
-            res.status(200).json(msg)
+            res.status(200).json({'success': true, 'tarea':msg})
         })
         .catch(err => {
             console.log('Fallo al crear la tarea')
@@ -17,7 +17,7 @@ const crearTarea = (req = request, res = response) => {
 const obtenerTodasLasTareas = (req, res) => {
     instConexion.getTareas()
         .then(msg => {
-            res.status(200).json(msg)
+            res.status(200).json({'success': true, 'tareas':msg})
         })
         .catch(err => {
             res.status(203).json({'msg': 'No se han encontrado registros'});
@@ -38,7 +38,7 @@ const borrarTarea = (req, res = response) => {
 const actualizarTarea = (req, res = response) => {
     instConexion.updateTarea(req.params.id, req.body)
         .then(msg => {
-            res.status(200).json(msg)
+            res.status(200).json({'success': true, 'tarea':msg})
         })
         .catch(err => {
             res.status(203).json(err)
