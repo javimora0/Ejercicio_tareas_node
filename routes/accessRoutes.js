@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const controlador = require('../controllers/userController');
 const mids = require('../middlewares/middleware');
 const { validarCampos } = require('../middlewares/validar-campos');
+const {login} = require("../controllers/authController");
 const router = Router()
 
 
@@ -16,7 +17,7 @@ router.post('/registro',
             .isLength({ min: 6 }),
         validarCampos], mids.checkEmail, controlador.crearUsuario);
         
-router.post('/login', mids.checkCredentials, controlador.login)
+router.post('/login', login)
 
 
 

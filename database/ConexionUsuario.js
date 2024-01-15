@@ -97,10 +97,22 @@ class ConexionUsuario {
         return resultado;
     }
 
-    checkLogin = async () => {
-        return 0
+    getUsuarioRegistrado = async (email, password) => {
+        conx.conectar()
+        let resultado = []
+        resultado = await Usuario.findOne({
+            where: {
+                email: email,
+                password: password
+            }
+        })
+        if (!resultado) {
+            resultado = null
+        }
+        conx.desconectar()
+        console.log(resultado.dataValues)
+        return resultado.dataValues
     }
-
 }
 
 module.exports = ConexionUsuario

@@ -52,15 +52,12 @@ const borrarUsuario = (req = request, res = response) => {
         })
 }
 
-const login = (req = request, res = response) => { 
-    
-}
+
 
 module.exports = {
     crearUsuario,
     obtenerUsuario,
     obtenerUsuarios,
     borrarUsuario,
-    login,
     modificarUsuario
 }
