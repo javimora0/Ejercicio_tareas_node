@@ -1,5 +1,5 @@
 const {DataTypes} = require('sequelize')
-const {Conexion} = require('../database/Conexion')
+const  Conexion  = require('../database/Conexion')
 
 const conx = new Conexion()
 const Tarea = conx.db.define('tarea', {
@@ -9,11 +9,14 @@ const Tarea = conx.db.define('tarea', {
             alowNull: false,
             unique: true
         },
-        duracion: {
-            type: DataTypes.INTEGER
+        descripcion: {
+            type: DataTypes.STRING
         },
         dificultad: {
             type: DataTypes.STRING
+        },
+        duracion: {
+            type: DataTypes.INTEGER
         },
         realizada: {
             type: DataTypes.INTEGER

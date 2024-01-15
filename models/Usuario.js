@@ -1,5 +1,5 @@
 const {DataTypes} = require('sequelize')
-const {Conexion} = require('../database/Conexion')
+const Conexion = require('../database/Conexion')
 
 const conx = new Conexion()
 const Usuario = conx.db.define('usuario', {

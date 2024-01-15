@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize')
 const {usuario} = require('../models/Usuario')
 const {tarea} = require('../models/Tarea')
-const {Conexion} = require('../database/Conexion')
+const Conexion = require('../database/Conexion')
 
 const conx = new Conexion()
 const UsuarioTarea = conx.db.define('usuarios_tareas', {
