@@ -1,4 +1,4 @@
-const {Sequelize, DataTypes, Model} = require('sequelize')
+const {DataTypes} = require('sequelize')
 const {Conexion} = require('../database/Conexion')
 
 const conx = new Conexion()
