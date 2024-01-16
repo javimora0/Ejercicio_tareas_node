@@ -1,37 +1,31 @@
-const mysql = require('mysql2');
+const {Sequelize} = require('sequelize');
 
 class Conexion {
-    
     constructor() {
-        this.config = {
+        this.db = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, process.env.DB_PASSWORD, {
             host: process.env.DB_HOST,
-            user: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            database: process.env.DB_DATABASE,
-            connectionLimit: process.env.DB_MAXCONNECTIONS, //Por defecto son 10.
-            port: process.env.DB_PORT
-        };
-        this.pool = mysql.createPool(this.config);
+            dialect: 'mysql', /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */
+            pool: {
+                max: 5,
+                min: 0,
+                acquire: 30000,
+                idle: 10000
+            },
+        });
     }
-    
-    query = (sql, values) => {
-        //Devolver una promesa
-        return new Promise((resolve, reject) => {
-            this.pool.query(sql, values, (err, rows) => {
-                if (err) {
-                    reject(err)
-                } else {
-                    // console.log('Llego aquí');
-                    if (rows.length === 0) {
-                        reject(err);
-                    }
-                    resolve(rows)
-                }
-            })
+
+    conectar = () => {
+        this.db.authenticate().then(() => {
+            console.log('Connection has been established successfully.')
+        }).catch((error) => {
+            console.error('Unable to connect to the database: ')
         })
     }
-    
-    
+
+    desconectar = () => {
+        process.on('SIGINT', () => conn.close())
+    }
+
 }
 
-module.exports = Conexion;
+module.exports = Conexion

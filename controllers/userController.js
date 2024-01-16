@@ -3,9 +3,9 @@ const Conexion = require('../database/ConexionUsuario');
 const instConexion = new Conexion()
 
 const crearUsuario = (req = request, res = response) => {
-    instConexion.insertarUsuario(req.body.nombre, req.body.email, req.body.password)
+    instConexion.insertarUsuario(req.body)
         .then(msg => {
-            res.status(200).json(msg)
+            res.status(200).json({'success': true, 'usuario':msg})
         })
         .catch(err => {
             res.status(203).json(err)
@@ -13,9 +13,9 @@ const crearUsuario = (req = request, res = response) => {
 }
 
 const modificarUsuario = (req = request, res = response) => { 
-    instConexion.updateUsuario(req.body.nombre, req.body.email, req.body.password)
+    instConexion.updateUsuario(req.body, req.params.id)
     .then(msg => {
-        res.status(200).json(msg)
+        res.status(200).json({'success': true, 'usuario':msg})
     })
     .catch(err => {
         res.status(203).json(err)
@@ -52,15 +52,12 @@ const borrarUsuario = (req = request, res = response) => {
         })
 }
 
-const login = (req = request, res = response) => { 
-    
-}
+
 
 module.exports = {
     crearUsuario,
     obtenerUsuario,
     obtenerUsuarios,
     borrarUsuario,
-    login,
     modificarUsuario
 }

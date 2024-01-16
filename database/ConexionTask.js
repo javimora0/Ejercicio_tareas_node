@@ -1,63 +1,68 @@
-const NOMBRE_TABLAS = require('../constants/nombreTablas');
-const Conexion = require('../database/Conexion');
-const instaciaConexion = new Conexion();
+const Conexion  = require('../database/Conexion')
+const Tarea = require('../models/Tarea')
+
+const conx = new Conexion()
 
 class ConexionTask {
-    insertarTarea = async(descripcion, duracion, dificultad, realizada) => {
-        let resultado = 0;
+    insertarTarea = async (body) => {
+        let resultado = 0
+        conx.conectar()
         try {
-            resultado = await instaciaConexion.query(`INSERT INTO ${NOMBRE_TABLAS.TABLA_TAREAS} VALUES (?, ?, ?, ?, ?)`, [null, duracion, dificultad, realizada, descripcion]);
+            resultado = await Tarea.create(body)
         } catch (error) {
-            throw error;
+            throw error
+        } finally {
+            conx.desconectar()
         }
-        return resultado;
+        return resultado
     }
-    
+
     getTareas = async () => {
-        let resultado = []
-        try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_TAREAS}`)
-        } catch (error) {
+        conx.conectar()
+        let resultado = await Tarea.findAll()
+        conx.desconectar()
+        if (!resultado) {
             throw error;
         }
-        return resultado;
-    }
-    getTarea = async (idTarea) => {
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_TAREAS} WHERE id = ?`, [idTarea])
-            if (resultado.length === 0) {
-                resultado = null
-            }
-        } catch (error) {
-            resultado = null
-        }
-        return resultado;
-    }
-    
-    deleteTarea = async (id) => {
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`DELETE FROM ${NOMBRE_TABLAS.TABLA_TAREAS} WHERE id = ?`, [id])
-        } catch (error) {
-            throw error;
-        }
-        return resultado;
-    }
-    
-    updateTarea = async (id, descripcion, duracion, dificultad, realizada) => { 
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`UPDATE ${NOMBRE_TABLAS.TABLA_TAREAS} SET descripcion = ?, duracion = ?, dificultad = ?, realizada = ? WHERE id = ?`, 
-            [descripcion, duracion, dificultad, realizada, id]);
-        } catch (error) {
-            throw error;
-        }
-        return resultado;
+        return resultado
     }
 
+    getTarea = async (id) => {
+        conx.conectar()
+        let resultado = await Tarea.findByPk(id)
+        conx.desconectar()
+        if (!resultado) {
+            conx.desconectar()
+            throw error;
+        }
+        conx.desconectar()
+        return resultado
+    }
+
+    deleteTarea = async (idTarea) => {
+        conx.conectar()
+        let resultado = await Tarea.findByPk(idTarea)
+        conx.desconectar()
+        if (!resultado) {
+            conx.desconectar()
+            throw error;
+        }
+        await resultado.destroy()
+        conx.desconectar()
+        return resultado
+    }
+
+    updateTarea = async (id, body) => {
+        conx.conectar()
+        let resultado = await Tarea.findByPk(id)
+        if (!resultado) {
+            conx.desconectar()
+            throw error
+        }
+        await resultado.update(body)
+        conx.desconectar()
+        return resultado
+    }
 }
-
-
 
 module.exports = ConexionTask

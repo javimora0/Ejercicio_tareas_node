@@ -1,81 +1,118 @@
-const NOMBRE_TABLAS = require('../constants/nombreTablas');
-const Conexion = require('../database/Conexion');
-const instaciaConexion = new Conexion();
+const Conexion = require('../database/Conexion')
+const Usuario = require('../models/Usuario')
+const conx = new Conexion()
+
 
 class ConexionUsuario {
-    insertarUsuario = async(nombre, email, password) => {
+    insertarUsuario = async (body) => {
         let resultado = 0
+        conx.conectar()
         try {
-            resultado = await instaciaConexion.query(`INSERT INTO ${NOMBRE_TABLAS.TABLA_USUARIOS} VALUES (null, ?, ?, ?)`, [nombre, email, password])
+            resultado = await Usuario.create(body)
         } catch (error) {
             throw error
+        } finally {
+            conx.desconectar()
         }
         return resultado
+
     }
 
     // Funcion solo utilizada en los middleware
-    getUsuario = async(id) => {
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id]);
-            if (resultado.length === 0) {
-                resultado =  null;
-            }
-            return resultado;
-        } catch (error) {
+    getUsuario = async (id) => {
+        conx.conectar()
+
+        let resultado = await Usuario.findByPk(id)
+        conx.desconectar()
+        if (!resultado) {
+            conx.desconectar()
             resultado = null
         }
-        return resultado
+        return resultado;
     }
 
-    getUsuarioEmail = async(email) => {
+
+    getUsuarioEmail = async (email) => {
         let resultado = 0
+        conx.conectar()
         try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [email]);
-            if (resultado.length === 0) {
-                resultado =  null;
+            resultado = await Usuario.findOne({
+                where: {
+                    email: email
+                }
+            })
+            if (!resultado) {
+                resultado = null;
             }
-            return resultado;
+            conx.desconectar()
         } catch (error) {
             resultado = null
+            conx.desconectar()
         }
         return resultado
     }
 
-    deleteUsuario = async(id) => {
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`DELETE FROM ${NOMBRE_TABLAS.TABLA_USUARIOS} WHERE id = ?`, [id])
-        } catch (error) {
+    deleteUsuario = async (id) => {
+        conx.conectar()
+        let resultado = await Usuario.findByPk(id)
+        conx.desconectar()
+        if (!resultado) {
+            conx.desconectar()
             throw error
         }
-        return resultado
+        await resultado.destroy()
+        conx.desconectar()
+        return resultados
     }
 
-    updateUsuario = async(nombre, email, password, id) => {
-        let resultado = 0
-        try {
-            resultado = await instaciaConexion.query(`UPDATE ${NOMBRE_TABLAS.TABLA_USUARIOS} SET nombre = ?, email = ?, password = ? WHERE id = ?`, [nombre, email, password, id])
-        } catch (error) {
+
+    updateUsuario = async (body, id) => {
+        conx.conectar()
+        let resultado = await Usuario.findByPk(id)
+        if (!resultado) {
+            conx.desconectar()
+            console.log(entro)
             throw error
         }
-        return resultado
-    }
-
-    getUsuarios = async() => {
-        let resultado = 0
         try {
-            resultado = await instaciaConexion.query(`SELECT * FROM ${NOMBRE_TABLAS.TABLA_USUARIOS}`)
-        } catch (error) {
+            let update = await resultado.update(body)
+            console.log(update)
+        }catch (error) {
+            conx.desconectar()
             throw error
         }
+        conx.desconectar()
         return resultado
     }
 
-    checkLogin = async() => {
-        return 0
+    getUsuarios = async () => {
+        conx.conectar()
+
+        let resultado = await Usuario.findAll()
+        conx.desconectar()
+        if (!resultado) {
+            conx.desconectar()
+            resultado = null
+        }
+        return resultado;
     }
 
+    getUsuarioRegistrado = async (email, password) => {
+        conx.conectar()
+        let resultado = []
+        resultado = await Usuario.findOne({
+            where: {
+                email: email,
+                password: password
+            }
+        })
+        if (!resultado) {
+            resultado = null
+        }
+        conx.desconectar()
+        console.log(resultado.dataValues)
+        return resultado.dataValues
+    }
 }
 
 module.exports = ConexionUsuario

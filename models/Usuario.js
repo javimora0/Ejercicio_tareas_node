@@ -1,33 +1,29 @@
 const {DataTypes} = require('sequelize')
-const  Conexion  = require('../database/Conexion')
+const Conexion = require('../database/Conexion')
 
 const conx = new Conexion()
-const Tarea = conx.db.define('tarea', {
+const Usuario = conx.db.define('usuario', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             alowNull: false,
             unique: true
         },
-        descripcion: {
+        nombre: {
             type: DataTypes.STRING
         },
-        dificultad: {
+        email: {
             type: DataTypes.STRING
         },
-        duracion: {
-            type: DataTypes.INTEGER
-        },
-        realizada: {
-            type: DataTypes.INTEGER
-        },
+        password: {
+            type: DataTypes.STRING
+        }
     },
     {
         timestamps: false
     },
     {
-        tableName: 'tareas'
+        tableName: 'usuarios'
     }
 )
-
-module.exports = Tarea;
+module.exports = Usuario
